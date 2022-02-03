@@ -4,7 +4,7 @@ import {
 } from 'react-native';
 import styles from './index.styles';
 
-const UpcomingLaunchesPage = ({ navigation }) => {
+const detailsPage = ({ navigation }) => {
 
     return (
         <SafeAreaView style={styles.mainContainer}>
@@ -13,4 +13,4 @@ const UpcomingLaunchesPage = ({ navigation }) => {
     )
 }
 
-export default UpcomingLaunchesPage;
+export default detailsPage;

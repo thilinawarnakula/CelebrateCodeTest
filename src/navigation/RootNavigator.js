@@ -1,23 +1,36 @@
 import React from 'react';
 import { NavigationContainer } from '@react-navigation/native';
-import { createNativeStackNavigator } from '@react-navigation/native-stack';
-import HomeNavigator from './HomeNavigator';
+import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
+import UpcomingLaunchesNavigator from './UpcomingLaunchesNavigator';
+import CompletedLaunchesNavigator from './CompletedLaunchesNavigator';
+import { HOME_SCREEN } from './NavigationConstants';
+import {
+    COLORS
+} from '../utilities/colors';
 
-const Stack = createNativeStackNavigator();
+const Tab = createBottomTabNavigator();
+
 
 const RootNavigator = () => {
 
     return (
         <NavigationContainer>
-            <Stack.Navigator initialRouteName="Home">
-                <Stack.Screen 
-                    name="Home" 
-                    component={HomeNavigator}
+            <Tab.Navigator initialRouteName={HOME_SCREEN.UP_COMING_LAUNCHES}>
+                <Tab.Screen
+                    name={HOME_SCREEN.UP_COMING_LAUNCHES}
+                    component={UpcomingLaunchesNavigator}
                     options={{
                         headerShown: false,
-                    }} 
+                    }}
                 />
-            </Stack.Navigator>
+                <Tab.Screen
+                    name={HOME_SCREEN.COMPLETE_LAUNCHES}
+                    component={CompletedLaunchesNavigator}
+                    options={{
+                        headerShown: false,
+                    }}
+                />
+            </Tab.Navigator>
         </NavigationContainer>
     )
 }
