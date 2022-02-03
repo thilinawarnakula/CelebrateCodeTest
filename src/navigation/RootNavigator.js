@@ -7,7 +7,8 @@ import { HOME_SCREEN } from './NavigationConstants';
 import {
     COLORS
 } from '../utilities/colors';
-import Ionicons from 'react-native-vector-icons/Ionicons';
+
+import AntDesign from 'react-native-vector-icons/AntDesign';
 
 const Tab = createBottomTabNavigator();
 
@@ -22,13 +23,11 @@ const RootNavigator = () => {
                         let iconName;
 
                         if (route.name === HOME_SCREEN.UP_COMING_LAUNCHES) {
-                            iconName = focused
-                                ? 'ios-information-circle'
-                                : 'ios-information-circle-outline';
+                            iconName = 'rocket1';
                         } else if (route.name === HOME_SCREEN.COMPLETE_LAUNCHES) {
-                            iconName = focused ? 'ios-list-box' : 'ios-list';
+                            iconName = 'calendar';
                         }
-                        return <Ionicons name={iconName} size={size} color={color} />;
+                        return <AntDesign name={iconName} size={size} color={color} />;
                     },
                     tabBarActiveTintColor: COLORS.primary,
                     tabBarInactiveTintColor: COLORS.gray1,
