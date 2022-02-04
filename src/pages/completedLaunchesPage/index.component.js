@@ -26,6 +26,7 @@ import {
 import HomeHeader from '../../components/homeHeader/index.component';
 import NoResults from '../../components/noResults/index.component';
 import Loader from '../../components/loader/index.component';
+import MenuCard from '../../components/menuCard/index.component';
 
 import useSearchInputHook from '../../customHooks/useSearchInputHook';
 import useLoaderHook from '../../customHooks/useLoaderHook';
@@ -112,7 +113,15 @@ const CompletedLaunchesPage = (props) => {
 
     const renderItem = ({ item, index }) => {
         return (
-            <Text>dasdad</Text>
+            <MenuCard
+                key={item.flight_number.toString()}
+                launcherName={item?.mission_name}
+                launcherDescription={item?.details}
+                launcherReleasedDate={item.launch_date_local}
+                onPress={() => onPressItem(item)}
+                index={index}
+
+            />
         )
     };
 

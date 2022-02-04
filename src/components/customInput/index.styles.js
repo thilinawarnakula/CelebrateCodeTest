@@ -14,7 +14,7 @@ const style = EStyleSheet.create({
         flexDirection: 'column',
     },
     textInputView :{
-        height: '30rem',
+        height: '40rem',
         width: entireScreenWidth - 80,
         backgroundColor: COLORS.white,
         borderRadius: '50rem',
