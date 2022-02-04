@@ -1,9 +1,14 @@
 import React, {useState,useEffect, memo } from 'react';
 import {
     SafeAreaView,
-    View
+    View,
+    FlatList,
+    Text
 } from 'react-native';
 import styles from './index.styles';
+import {
+    getCompletedList
+} from './index.controller';
 import { connect, useDispatch } from 'react-redux';
 import { useIsFocused } from '@react-navigation/native';
 
@@ -12,6 +17,11 @@ import {
     NO_RESULT_SUB_HEADER,
     NO_RESULT_HEADER
 } from '../../utilities/strings';
+
+import {
+    PAGE_LIMIT,
+    INITIAL_PAGE_OFFSET
+} from '../../utilities/constants';
 
 import HomeHeader from '../../components/homeHeader/index.component';
 import NoResults from '../../components/noResults/index.component';
@@ -34,14 +44,48 @@ const CompletedLaunchesPage = (props) => {
     const isFocused = useIsFocused();
     const dispatch = useDispatch();
 
-    const fetchData = () => {
-    }
 
     useEffect(() => {
         if (isFocused) {
-            fetchData();
+            loadData();
         }
     }, [isFocused]);
+
+    const resetStateValues = () => {
+        clearSearchText();
+        setData([])
+        setFilterData([]);
+    };
+
+    const loadData = () => {
+        resetStateValues();
+        setLoadingValue(true);
+        fetchData(true,INITIAL_PAGE_OFFSET);
+    };
+
+    const fetchData = (freshPull,offSet) => {
+        getCompletedList(
+            freshPull,
+            offSet,
+            PAGE_LIMIT,
+            getCompletedListSuccess,
+            getCompletedListError,
+        );
+    };
+    
+    const getCompletedListSuccess = (response) => {
+        let dataList = response?.resultData?.data;
+        let freshPull = response?.freshPull;
+        setData(dataList);
+        setFilterData(dataList);
+        setLoadingValue(false);
+    };
+
+    const getCompletedListError = (error) => {
+        setData([]);
+        setFilterData([]);
+        setLoadingValue(false);
+    };
 
     const onTextChange = (text) => {
         onSearchtextChangeValue(text);
@@ -66,6 +110,12 @@ const CompletedLaunchesPage = (props) => {
         </View>
     ) : null);
 
+    const renderItem = ({ item, index }) => {
+        return (
+            <Text>dasdad</Text>
+        )
+    };
+
     const renderFlatListContainer = () => (
         <FlatList
             nestedScrollEnabled
@@ -73,7 +123,7 @@ const CompletedLaunchesPage = (props) => {
             renderItem={renderItem}
             style={styles.listView}
             showsVerticalScrollIndicator={false}
-            keyExtractor={(item) => item.id}
+            keyExtractor={(item) => item.flight_number.toString()}
             contentContainerStyle={styles.listViewContainer}
             onRefresh={() => {
                 fetchData();

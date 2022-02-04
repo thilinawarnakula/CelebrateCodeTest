@@ -1,15 +1,24 @@
 import React,{useState,useEffect,memo} from 'react';
 import {
     SafeAreaView,
-    View
+    View,
+    FlatList,
+    Text
 } from 'react-native';
 import styles from './index.styles';
+import {
+    getUpComingList
+} from './index.controller';
 
 import {
     SERCH_TEXT_INPUT_UPCOMING_LAUNCHES_NAME,
     NO_RESULT_SUB_HEADER,
     NO_RESULT_HEADER
 } from '../../utilities/strings';
+import {
+    PAGE_LIMIT,
+    INITIAL_PAGE_OFFSET
+} from '../../utilities/constants';
 
 import { connect, useDispatch } from 'react-redux';
 import { useIsFocused } from '@react-navigation/native';
@@ -35,14 +44,47 @@ const UpcomingLaunchesPage = (props) => {
     const isFocused = useIsFocused();
     const dispatch = useDispatch();
 
-    const fetchData = () => {
-    }
-
     useEffect(() => {
         if (isFocused) {
-            fetchData();
+            loadData();
         }
     }, [isFocused]);
+
+    const resetStateValues = () => {
+        clearSearchText();
+        setData([])
+        setFilterData([]);
+    };
+
+    const loadData = () => {
+        resetStateValues();
+        setLoadingValue(true);
+        fetchData(true,INITIAL_PAGE_OFFSET);
+    };
+
+    const fetchData = (freshPull,offSet) => {
+        getUpComingList(
+            freshPull,
+            offSet,
+            PAGE_LIMIT,
+            getUpComingListSuccess,
+            getUpComingListError,
+        );
+    };
+    
+    const getUpComingListSuccess = (response) => {
+        let dataList = response?.resultData?.data;
+        let freshPull = response?.freshPull;
+        setData(dataList);
+        setFilterData(dataList);
+        setLoadingValue(false);
+    };
+
+    const getUpComingListError = (error) => {
+        setData([]);
+        setFilterData([]);
+        setLoadingValue(false);
+    };
 
     const onTextChange = (text) => {
         onSearchtextChangeValue(text);
@@ -67,6 +109,12 @@ const UpcomingLaunchesPage = (props) => {
         </View>
     ) : null);
 
+    const renderItem = ({ item, index }) => {
+        return (
+            <Text>dasdad</Text>
+        )
+    };
+
     const renderFlatListContainer = () => (
         <FlatList
             nestedScrollEnabled
@@ -74,7 +122,7 @@ const UpcomingLaunchesPage = (props) => {
             renderItem={renderItem}
             style={styles.listView}
             showsVerticalScrollIndicator={false}
-            keyExtractor={(item) => item.id}
+            keyExtractor={(item) => item.flight_number.toString()}
             contentContainerStyle={styles.listViewContainer}
             onRefresh={() => {
                 fetchData();
@@ -92,6 +140,7 @@ const UpcomingLaunchesPage = (props) => {
     return (
         <SafeAreaView style={styles.mainContainer}>
              {renderHeader()}
+             {renderFlatListContainer()}
              <View style={styles.loadingContainer}>
                 {isLoading &&
                     renderFullLoadingIndicator()
