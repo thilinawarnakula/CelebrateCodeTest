@@ -31,12 +31,17 @@ import MenuCard from '../../components/menuCard/index.component';
 import useSearchInputHook from '../../customHooks/useSearchInputHook';
 import useLoaderHook from '../../customHooks/useLoaderHook';
 
+import {
+    updateUpComingLaunches
+} from '../../redux/actions/upcomingLaunchesActions'
+
 let upcomingLaunchesEndReachedCalledDuringMomentum = false;
 
 const UpcomingLaunchesPage = (props) => {
 
     const {
-        navigation
+        navigation,
+        upcomingLaunchesList
     } = props;
 
     const [searchText,onSearchtextChangeValue,clearSearchText] = useSearchInputHook('');
@@ -57,7 +62,7 @@ const UpcomingLaunchesPage = (props) => {
 
     const resetStateValues = () => {
         clearSearchText();
-        setAllData([])
+        dispatch(updateUpComingLaunches([]));
         setFilterData([]);
     };
 
@@ -81,20 +86,13 @@ const UpcomingLaunchesPage = (props) => {
 
         let responseData = response?.resultData?.data;
         let freshPull = response?.freshPull;
-        let allDataList = freshPull ? [] : [...allDataListData];
-        let filterDataList = freshPull ? [] : [...filterDataListData];
+        let allDataList = freshPull ? [] : [...upcomingLaunchesList];
 
         responseData.length > 0 &&
             responseData.forEach((each) => {
                 allDataList.push(each);
             });
-        setAllData(allDataList);
-
-        responseData.length > 0 &&
-            responseData.forEach((each) => {
-                filterDataList.push(each);
-            });
-        setFilterData(filterDataList);
+        dispatch(updateUpComingLaunches(allDataList));
 
         const hasMore = responseData && responseData.length < PAGE_LIMIT;
         setHasMore(hasMore);
@@ -103,7 +101,7 @@ const UpcomingLaunchesPage = (props) => {
     };
 
     const getUpComingListError = (error) => {
-        setAllData([]);
+        dispatch(updateUpComingLaunches([]));
         setFilterData([]);
         setLoadingValue(false);
     };
@@ -156,7 +154,7 @@ const UpcomingLaunchesPage = (props) => {
 
     const renderFlatListContainer = () => (
         <FlatList
-            data={filterDataListData}
+            data={upcomingLaunchesList}
             renderItem={renderItem}
             style={styles.listView}
             showsVerticalScrollIndicator={false}
@@ -189,7 +187,7 @@ const UpcomingLaunchesPage = (props) => {
                     renderFullLoadingIndicator()
                 }
             </View>
-            {!isLoading && filterDataListData.length == 0 &&
+            {!isLoading && upcomingLaunchesList.length == 0 &&
                 renderNoResultList()
             }
         </SafeAreaView>
@@ -197,6 +195,7 @@ const UpcomingLaunchesPage = (props) => {
 }
 
 const mapStateToProps = (state) => ({
+    upcomingLaunchesList: state?.upcomingLaunches?.upcomingLaunchesList,
 });
 
 export default connect(mapStateToProps)(memo(UpcomingLaunchesPage));

@@ -1,5 +1,5 @@
 import {
-    SET_COMPLETED_LAUNCHES_LIST
+    SET_UPCOMING_LAUNCHES_LIST
 } from '../types';
 
 const INITIAL_STATE = {
@@ -8,7 +8,7 @@ const INITIAL_STATE = {
 
 export default (state = INITIAL_STATE, action) => {
     switch (action.type) {
-        case SET_COMPLETED_LAUNCHES_LIST:
+        case SET_UPCOMING_LAUNCHES_LIST:
             return {
                 ...state,
                 upcomingLaunchesList: action.payload,
