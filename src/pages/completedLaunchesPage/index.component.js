@@ -12,6 +12,7 @@ import { connect, useDispatch } from 'react-redux';
 import { useIsFocused } from '@react-navigation/native';
 import _, {debounce} from 'lodash';
 import {memoize} from 'lodash/fp';
+import moment from 'moment';
 
 import {
     SERCH_TEXT_INPUT_HEADER,
@@ -182,7 +183,11 @@ const CompletedLaunchesPage = (props) => {
     };
 
     const fetchMore = () => {
-        if (!hasMore && !completeLaunchesEndReachedCalledDuringMomentum && searchText == '') {
+        let startDateValue = moment(filterStartDate);
+        let endDateValue = moment(filterEndDate);
+
+        if (!hasMore && !completeLaunchesEndReachedCalledDuringMomentum 
+            && searchText == '' && !startDateValue.isValid() && !endDateValue.isValid()) {
             let newOffSetListView = offSetListView + 1
             setOffSetListView(newOffSetListView);
             fetchData(false,newOffSetListView)
@@ -194,6 +199,13 @@ const CompletedLaunchesPage = (props) => {
         navigation.navigate(HOME_SCREEN.DETAILS_PAGE, {
             item
         });
+    };
+
+    const handleApplyFilters = () => {
+        setLoadingValue(true);
+        const filteredData = filterItems(completeLaunchesList,searchText,filterStartDate,filterEndDate);
+        dispatch(updateFiltedCompletedLaunches(filteredData));
+        setLoadingValue(false);
     };
 
     const renderFlatListContainer = () => (
@@ -236,7 +248,7 @@ const CompletedLaunchesPage = (props) => {
             {!isLoading && completeLaunchesFilterdList.length == 0 &&
                 renderNoResultList()
             }
-             <FilterModal/>
+             <FilterModal applyFilters={handleApplyFilters}/>
         </SafeAreaView>
     )
 }

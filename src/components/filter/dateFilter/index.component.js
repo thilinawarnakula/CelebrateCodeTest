@@ -54,6 +54,7 @@ const DateFilter = (props) => {
             <CustomTextView textValue={textValue || ''} textStyle={styles.lableValue} />
             <CustomTextView textValue={moment(date).isValid() ? moment(date).format('MMMM Do, YYYY') : date} textStyle={styles.dateValue} />
             <DatePicker
+                mode={'date'}
                 modal
                 open={open}
                 date={moment(date).isValid() ? date : new Date()}

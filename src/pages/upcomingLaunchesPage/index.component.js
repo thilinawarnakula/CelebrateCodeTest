@@ -24,6 +24,7 @@ import { connect, useDispatch } from 'react-redux';
 import { useIsFocused } from '@react-navigation/native';
 import _, {debounce} from 'lodash';
 import {memoize} from 'lodash/fp';
+import moment from 'moment';
 
 import HomeHeader from '../../components/homeHeader/index.component';
 import NoResults from '../../components/noResults/index.component';
@@ -188,8 +189,19 @@ const UpcomingLaunchesPage = (props) => {
        dispatch(hadleFilterModal(true))
     };
 
+    const handleApplyFilters = () => {
+        setLoadingValue(true);
+        const filteredData = filterItems(upcomingLaunchesList,searchText,filterStartDate,filterEndDate);
+        dispatch(updateFilterdUpComingLaunches(filteredData));
+        setLoadingValue(false);
+    };
+
     const fetchMore = () => {
-        if (!hasMore && !upcomingLaunchesEndReachedCalledDuringMomentum && searchText == '') {
+        let startDateValue = moment(filterStartDate);
+        let endDateValue = moment(filterEndDate);
+
+        if (!hasMore && !upcomingLaunchesEndReachedCalledDuringMomentum && searchText == ''
+             && !startDateValue.isValid() && !endDateValue.isValid()) {
             let newOffSetListView = offSetListView + 1
             setOffSetListView(newOffSetListView);
             fetchData(false,newOffSetListView)
@@ -237,7 +249,7 @@ const UpcomingLaunchesPage = (props) => {
             {!isLoading && upcomingLaunchesFilterdList.length == 0 &&
                 renderNoResultList()
             }
-            <FilterModal/>
+            <FilterModal applyFilters={handleApplyFilters}/>
         </SafeAreaView>
     )
 }

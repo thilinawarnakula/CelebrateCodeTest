@@ -31,7 +31,8 @@ const style = EStyleSheet.create({
         alignItems:'center'
     },
     filterIcon:{
-       marginTop:'10rem'
+       marginTop:'18rem',
+       marginLeft: '5rem'
     }
 });
 

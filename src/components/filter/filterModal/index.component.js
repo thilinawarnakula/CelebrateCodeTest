@@ -48,7 +48,8 @@ const FilterModal = (props) => {
     const { 
         showFilters,
         filterStartDate,
-        filterEndDate
+        filterEndDate,
+        applyFilters
      } = props;
 
     const dispatch = useDispatch();
@@ -65,6 +66,8 @@ const FilterModal = (props) => {
             showError();
            return;
        }
+       applyFilters();
+       dispatch(hadleFilterModal(false));
     };
 
     const showError = () => {
