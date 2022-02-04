@@ -8,5 +8,8 @@ export const APP_NAME = 'SpaceX';
 export const YOUTUBE = 'YouTube';
 export const WIKI = 'WIKI';
 export const FILTER_HEADER_TEXT = 'Custom Filters';
+export const START_DATE_FILTER = 'Start Date : ';
+export const END_DATE_FILTER = 'End Date :';
+export const FILTER_BUTTON = 'Apply';
 
 

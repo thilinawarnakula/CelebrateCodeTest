@@ -29,7 +29,7 @@ import HomeHeader from '../../components/homeHeader/index.component';
 import NoResults from '../../components/noResults/index.component';
 import Loader from '../../components/loader/index.component';
 import MenuCard from '../../components/menuCard/index.component';
-import FilterModal from '../../components/filterModal/index.component';
+import FilterModal from '../../components/filter/filterModal/index.component';
 
 import useSearchInputHook from '../../customHooks/useSearchInputHook';
 import useLoaderHook from '../../customHooks/useLoaderHook';

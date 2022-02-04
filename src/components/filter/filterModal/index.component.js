@@ -7,19 +7,24 @@ import {
 import { connect, useDispatch } from 'react-redux';
 import {
     COLORS,
-} from '../../utilities/colors';
+} from '../../../utilities/colors';
 import {
     FILTER_HEADER_TEXT,
-} from '../../utilities/strings';
+    START_DATE_FILTER,
+    END_DATE_FILTER,
+    FILTER_BUTTON
+} from '../../../utilities/strings';
 import Modal from 'react-native-modal';
 
 import AntDesign from 'react-native-vector-icons/AntDesign';
-import CustomTextView from '../customTextView/index.component';
+import CustomTextView from '../../customTextView/index.component';
+import DateFilter from '../dateFilter/index.component';
+import CustomButton from '../../customButton/index.component';
 
 import styles from './index.styles';
 import {
     hadleFilterModal
-} from '../../redux/actions/filterAction'
+} from '../../../redux/actions/filterAction'
 
 import EStyleSheet from 'react-native-extended-stylesheet';
 const entireScreenWidth = Dimensions.get('window').width;
@@ -35,6 +40,11 @@ const FilterModal = (props) => {
         dispatch(hadleFilterModal(false));
     };
 
+    const onPressApply = () => {
+        console.log("dasda")
+    };
+
+
     return (
         <Modal
             style={styles.modalWrapper}
@@ -48,6 +58,11 @@ const FilterModal = (props) => {
                     <AntDesign name={'close'} size={25} color={COLORS.primary} />
                 </TouchableOpacity>
                 <CustomTextView textValue={FILTER_HEADER_TEXT} textStyle={styles.filterHeaderText} />
+                <DateFilter textValue={START_DATE_FILTER}/>
+                <DateFilter textValue={END_DATE_FILTER}/>
+                <View style={styles.buttonContainer}>
+                    <CustomButton textValue={FILTER_BUTTON} onPress={onPressApply}/>
+                </View>
             </View>
         </Modal>
     )

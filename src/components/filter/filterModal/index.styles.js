@@ -2,7 +2,7 @@ import {
     Dimensions
 } from 'react-native';
 import EStyleSheet from 'react-native-extended-stylesheet';
-import { COLORS } from '../../utilities/colors';
+import { COLORS } from '../../../utilities/colors';
 
 const entireScreenWidth = Dimensions.get('window').width;
 const entireScreenHeight = Dimensions.get('window').height;
@@ -23,7 +23,7 @@ const style = EStyleSheet.create({
         backgroundColor: COLORS.white,
         borderTopRightRadius: 50,
         borderTopLeftRadius: 50,
-        alignItems:'center'
+        alignItems:'center',
     },
     iconWrapper: {
         elevation: 3,
@@ -43,7 +43,11 @@ const style = EStyleSheet.create({
         color: COLORS.black,
         fontSize: '18rem',
         fontWeight: '700',
-    }
+    },
+    buttonContainer:{
+        marginTop:'20rem',
+        marginBottom : '25rem'
+    },
 });
 
 export default style;

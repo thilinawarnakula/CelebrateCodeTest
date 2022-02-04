@@ -32,7 +32,9 @@ const MenuCard = (props) => {
 
   const renderIcon = () => {
     let iconColor = null;
-    if(launcherStatus == SUCCESS_LAUNCH){
+    if(launcherStatus == null){
+      iconColor = COLORS.primary
+    }else if(launcherStatus == SUCCESS_LAUNCH){
       iconColor = COLORS.green
     }else{
       iconColor = COLORS.red
