@@ -8,7 +8,6 @@ EStyleSheet.build({ $rem: entireScreenWidth / 380 });
 
 const style = EStyleSheet.create({
     mainContainer: {
-        backgroundColor:'red',
         flex : 1,
     },
 });

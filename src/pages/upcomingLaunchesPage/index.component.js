@@ -18,6 +18,7 @@ import {
     PAGE_LIMIT,
     INITIAL_PAGE_OFFSET
 } from '../../utilities/constants';
+import { HOME_SCREEN } from '../../navigation/NavigationConstants';
 
 import { connect, useDispatch } from 'react-redux';
 import { useIsFocused } from '@react-navigation/native';
@@ -169,6 +170,10 @@ const UpcomingLaunchesPage = (props) => {
     };
 
     const onPressItem = (item) => {
+        navigation.navigate(HOME_SCREEN.DETAILS_PAGE, {
+            item,
+
+        });
     };
 
     const fetchMore = () => {

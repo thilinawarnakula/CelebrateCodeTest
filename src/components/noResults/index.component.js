@@ -5,9 +5,6 @@ import {
     Text,
     Image
 } from 'react-native';
-import { 
-    NO_RESULTS_ICON,
-} from '../../utilities/icons';
 
 import Feather from 'react-native-vector-icons/Feather';
 

@@ -23,6 +23,7 @@ import {
     PAGE_LIMIT,
     INITIAL_PAGE_OFFSET
 } from '../../utilities/constants';
+import { HOME_SCREEN } from '../../navigation/NavigationConstants';
 
 import HomeHeader from '../../components/homeHeader/index.component';
 import NoResults from '../../components/noResults/index.component';
@@ -178,6 +179,9 @@ const CompletedLaunchesPage = (props) => {
     };
 
     const onPressItem = (item) => {
+        navigation.navigate(HOME_SCREEN.DETAILS_PAGE, {
+            item
+        });
     };
 
     const renderFlatListContainer = () => (
