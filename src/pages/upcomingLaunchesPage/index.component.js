@@ -167,6 +167,7 @@ const UpcomingLaunchesPage = (props) => {
                 launcherName={item?.mission_name}
                 launcherDescription={item?.details}
                 launcherReleasedDate={item?.launch_date_local}
+                launcherStatus={item?.launch_success}
                 onPress={() => onPressItem(item)}
                 index={index}
 

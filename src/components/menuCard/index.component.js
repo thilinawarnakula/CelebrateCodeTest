@@ -15,6 +15,8 @@ import AntDesign from 'react-native-vector-icons/AntDesign';
 const entireScreenWidth = Dimensions.get('window').width;
 EStyleSheet.build({ $rem: entireScreenWidth / 380 });
 
+const SUCCESS_LAUNCH = true;
+
 import CustomTextView from '../customTextView/index.component';
 
 const MenuCard = (props) => {
@@ -22,9 +24,22 @@ const MenuCard = (props) => {
     launcherName,
     launcherDescription,
     launcherReleasedDate,
+    launcherStatus,
     onPress,
     index,
   } = props;
+  
+
+  const renderIcon = () => {
+    let iconColor = null;
+    if(launcherStatus == SUCCESS_LAUNCH){
+      iconColor = COLORS.green
+    }else{
+      iconColor = COLORS.red
+    }
+    return(
+      <AntDesign name={'rocket1'} size={40} color={iconColor}/>
+  )};
 
   return (
     <View
@@ -32,7 +47,7 @@ const MenuCard = (props) => {
       <TouchableOpacity
         onPress={onPress}>
         <View style={styles.launcherDetalisContainer}>
-          <AntDesign name={'rocket1'} size={40} color={COLORS.primary}/>
+          {renderIcon()}
           <CustomTextView textValue={launcherName || ''} textStyle={styles.launcherNameText} />
           <CustomTextView textValue={moment(launcherReleasedDate).format('MMMM Do, YYYY') || ''} textStyle={styles.launcherDateText} />
         </View>

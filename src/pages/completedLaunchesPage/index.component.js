@@ -29,6 +29,7 @@ import HomeHeader from '../../components/homeHeader/index.component';
 import NoResults from '../../components/noResults/index.component';
 import Loader from '../../components/loader/index.component';
 import MenuCard from '../../components/menuCard/index.component';
+import FilterModal from '../../components/filterModal/index.component';
 
 import useSearchInputHook from '../../customHooks/useSearchInputHook';
 import useLoaderHook from '../../customHooks/useLoaderHook';
@@ -41,6 +42,9 @@ import {
     updateCompletedLaunches,
     updateFiltedCompletedLaunches
 } from '../../redux/actions/completedLaunchesAction';
+import {
+    hadleFilterModal
+} from '../../redux/actions/filterAction'
 
 let completeLaunchesEndReachedCalledDuringMomentum = false;
 
@@ -150,6 +154,10 @@ const CompletedLaunchesPage = (props) => {
         />
     );
 
+    const openFilterOptions = (item) => {
+        dispatch(hadleFilterModal(true))
+     };
+
     const renderFullLoadingIndicator = () => ((isLoading) ? (
         <View style={styles.loadingView}>
             <Loader />
@@ -163,6 +171,7 @@ const CompletedLaunchesPage = (props) => {
                 launcherName={item?.mission_name}
                 launcherDescription={item?.details}
                 launcherReleasedDate={item?.launch_date_local}
+                launcherStatus={item?.launch_success}
                 onPress={() => onPressItem(item)}
                 index={index}
 
@@ -225,6 +234,7 @@ const CompletedLaunchesPage = (props) => {
             {!isLoading && completeLaunchesFilterdList.length == 0 &&
                 renderNoResultList()
             }
+             <FilterModal/>
         </SafeAreaView>
     )
 }

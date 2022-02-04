@@ -35,7 +35,7 @@ const style = EStyleSheet.create({
         borderWidth: 2
       },
       launcherNameText: {
-        color: COLORS.primary,
+        color: COLORS.black,
         fontSize: '18rem',
         fontWeight: '700',
         textAlign: 'left',
