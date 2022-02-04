@@ -1,6 +1,6 @@
 import React, {useState,useEffect} from 'react';
 import {
-    SafeAreaView, View,ScrollView
+    SafeAreaView, View,ScrollView,Linking
 } from 'react-native';
 import styles from './index.styles';
 import {
@@ -11,8 +11,14 @@ import moment from 'moment';
 
 import {
     DETAILS_PAGE,
-    NO_DESCRIPTION
+    NO_DESCRIPTION,
+    YOUTUBE,
+    WIKI
 } from '../../utilities/strings';
+import {
+    YOUTUBE_CLICK,
+    WIKI_CLICK
+} from '../../utilities/constants';
 import { 
     ROCKET_ICON,
 } from '../../utilities/icons';
@@ -23,6 +29,7 @@ import PageHeader from '../../components/pageHeader/index.component';
 import CustomTextView from '../../components/customTextView/index.component';
 import CustomIcon from '../../components/customIcon/index.component';
 import Loader from '../../components/loader/index.component';
+import InfoTags from '../../components/infoTags/index.component'
 
 const DetailsPage = (props) => {
 
@@ -46,7 +53,6 @@ const DetailsPage = (props) => {
 
     const fetchData = () => {
         let flightId= route?.params?.item?.flight_number;
-        console.log("flightId",flightId);
         setLoadingValue(true);
         getFlighData(
             flightId,
@@ -68,11 +74,37 @@ const DetailsPage = (props) => {
         navigation.goBack();
     };
 
+    const onPressTag = (clickType) => {
+        switch(clickType) {
+            case YOUTUBE_CLICK:
+              openLink(flight?.links?.video_link)  
+              break;
+            case WIKI_CLICK:
+             openLink(flight?.links?.wikipedia)    
+              break;
+          }
+    };
+
+    openLink = (link) => {
+        Linking.canOpenURL(link).then(supported => {
+          if (supported) {
+            Linking.openURL(link);
+          } 
+        });
+      };
+
     const renderFullLoadingIndicator = () => ((isLoading) ? (
         <View style={styles.loadingView}>
             <Loader />
         </View>
     ) : null);
+
+    const infoTagsList = () => (
+        <View style={styles.infoTagsContainer}>
+            {flight?.links?.video_link && <InfoTags textName ={YOUTUBE} onPress={() => onPressTag(YOUTUBE_CLICK)}/>}
+            {flight?.links?.wikipedia && <InfoTags textName ={WIKI} onPress={() => onPressTag(WIKI_CLICK)}/>}
+        </View>
+    );
 
     return (
         <SafeAreaView style={styles.mainContainer}>
@@ -84,6 +116,7 @@ const DetailsPage = (props) => {
                 <CustomIcon 
                     iconName={flight?.links?.mission_patch_small && !isLoading ?{uri:flight?.links?.mission_patch_small} : ROCKET_ICON} 
                     containerStyle={styles.iconView}/>
+                {infoTagsList()}
                 <CustomTextView 
                     numberOfLines={10} 
                     textValue={flight?.details || NO_DESCRIPTION } 

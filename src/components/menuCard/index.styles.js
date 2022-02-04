@@ -34,10 +34,6 @@ const style = EStyleSheet.create({
         borderStyle: 'dotted',
         borderWidth: 2
       },
-      launcherDiseasesContainer: { 
-        flexDirection: 'row', 
-        flexWrap: 'wrap' 
-      },
       launcherNameText: {
         color: COLORS.primary,
         fontSize: '18rem',

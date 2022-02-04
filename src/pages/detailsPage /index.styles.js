@@ -61,7 +61,10 @@ const styles = EStyleSheet.create({
     flex: 1,
     marginTop: '15rem'
   },
-
+  infoTagsContainer: {
+    flexDirection: 'row',
+    justifyContent:'space-between',
+  },
 });
 
 export default styles;

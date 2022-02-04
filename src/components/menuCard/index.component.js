@@ -32,7 +32,7 @@ const MenuCard = (props) => {
       <TouchableOpacity
         onPress={onPress}>
         <View style={styles.launcherDetalisContainer}>
-        <AntDesign name={'rocket1'} size={40} color={COLORS.primary}/>
+          <AntDesign name={'rocket1'} size={40} color={COLORS.primary}/>
           <CustomTextView textValue={launcherName || ''} textStyle={styles.launcherNameText} />
           <CustomTextView textValue={moment(launcherReleasedDate).format('MMMM Do, YYYY') || ''} textStyle={styles.launcherDateText} />
         </View>
