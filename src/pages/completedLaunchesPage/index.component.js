@@ -152,7 +152,7 @@ const CompletedLaunchesPage = (props) => {
     const renderItem = ({ item, index }) => {
         return (
             <MenuCard
-                key={item?.flight_number.toString()}
+                key={item?._id}
                 launcherName={item?.mission_name}
                 launcherDescription={item?.details}
                 launcherReleasedDate={item?.launch_date_local}
@@ -172,13 +172,16 @@ const CompletedLaunchesPage = (props) => {
         }
     };
 
+    const onPressItem = (item) => {
+    };
+
     const renderFlatListContainer = () => (
         <FlatList
             data={completeLaunchesList}
             renderItem={renderItem}
             style={styles.listView}
             showsVerticalScrollIndicator={false}
-            keyExtractor={(item) => item?.flight_number.toString()}
+            keyExtractor={(item) => item?._id}
             contentContainerStyle={styles.listViewContainer}
             onRefresh={() => {
                 loadData();

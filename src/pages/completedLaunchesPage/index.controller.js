@@ -8,7 +8,7 @@ export const getCompletedList = async (
     getCompletedListError,
 ) => {
   try {
-    const response = await api.get(`/launches/past?offset=${offset}&limit=${limit}`);
+    const response = await api.get(`/launches/past?offset=${offset}&limit=${limit}&id=true`);
     console.log("getCompletedList -- : ",response);
     getCompletedListSuccess( {
       freshPull,

@@ -152,7 +152,7 @@ const UpcomingLaunchesPage = (props) => {
     const renderItem = ({ item, index }) => {
         return (
             <MenuCard
-                key={item?.flight_number.toString()}
+                key={item?._id}
                 launcherName={item?.mission_name}
                 launcherDescription={item?.details}
                 launcherReleasedDate={item?.launch_date_local}
@@ -161,6 +161,9 @@ const UpcomingLaunchesPage = (props) => {
 
             />
         )
+    };
+
+    const onPressItem = (item) => {
     };
 
     const fetchMore = () => {
@@ -178,7 +181,7 @@ const UpcomingLaunchesPage = (props) => {
             renderItem={renderItem}
             style={styles.listView}
             showsVerticalScrollIndicator={false}
-            keyExtractor={(item) => item?.flight_number.toString()}
+            keyExtractor={(item) => item?._id}
             contentContainerStyle={styles.listViewContainer}
             onRefresh={() => {
                 loadData();
