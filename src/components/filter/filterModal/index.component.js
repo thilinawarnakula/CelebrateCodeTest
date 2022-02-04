@@ -2,7 +2,8 @@ import React from 'react';
 import {
     View,
     Dimensions,
-    TouchableOpacity
+    TouchableOpacity,
+    Alert
 } from 'react-native';
 import { connect, useDispatch } from 'react-redux';
 import {
@@ -12,9 +13,13 @@ import {
     FILTER_HEADER_TEXT,
     START_DATE_FILTER,
     END_DATE_FILTER,
-    FILTER_BUTTON
+    FILTER_BUTTON,
+    FILTER_ERROR,
+    FILTER_ERROR_MESSAGE,
+    FILTER_ERROR_OK
 } from '../../../utilities/strings';
 import Modal from 'react-native-modal';
+import _ from 'lodash';
 
 import AntDesign from 'react-native-vector-icons/AntDesign';
 import CustomTextView from '../../customTextView/index.component';
@@ -32,7 +37,11 @@ EStyleSheet.build({ $rem: entireScreenWidth / 380 });
 
 const FilterModal = (props) => {
 
-    const { showFilters } = props;
+    const { 
+        showFilters,
+        filterStartDate,
+        filterEndDate
+     } = props;
 
     const dispatch = useDispatch();
 
@@ -41,7 +50,23 @@ const FilterModal = (props) => {
     };
 
     const onPressApply = () => {
-        console.log("dasda")
+       if(_.isEmpty(null) || _.isEmpty(null)){
+            showError()
+           return;
+       }
+    };
+
+    const showError = () => {
+        Alert.alert(
+            FILTER_ERROR,
+            FILTER_ERROR_MESSAGE,
+            [
+              {
+                text: FILTER_ERROR_OK,
+                onPress: () => {}
+              },
+            ]
+          );
     };
 
 
@@ -70,6 +95,8 @@ const FilterModal = (props) => {
 
 const mapStateToProps = (state) => ({
     showFilters: state.filters.showFilters,
+    filterStartDate: state.filters.filterStartDate,
+    filterEndDate: state.filters.filterEndDate,
 });
 
 export default connect(mapStateToProps)(FilterModal);
