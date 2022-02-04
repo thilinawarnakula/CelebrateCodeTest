@@ -52,7 +52,7 @@ const DetailsPage = (props) => {
     }, [isFocused]);
 
     const fetchData = () => {
-        let flightId= route?.params?.item?.flight_number;
+        let flightId= route?.params?.item?._id;
         setLoadingValue(true);
         getFlighData(
             flightId,
@@ -62,7 +62,7 @@ const DetailsPage = (props) => {
     };
 
     const getFlighDataSuccess = (response) => {
-        setFlight(response.data);
+        setFlight(response?.data[0]);
         setLoadingValue(false);
     };
 

@@ -64,6 +64,7 @@ const styles = EStyleSheet.create({
   infoTagsContainer: {
     flexDirection: 'row',
     justifyContent:'space-between',
+    marginTop: '15rem'
   },
 });
 
