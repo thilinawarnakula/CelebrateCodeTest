@@ -31,6 +31,8 @@ import MenuCard from '../../components/menuCard/index.component';
 import useSearchInputHook from '../../customHooks/useSearchInputHook';
 import useLoaderHook from '../../customHooks/useLoaderHook';
 
+let upcomingLaunchesEndReachedCalledDuringMomentum = false;
+
 const UpcomingLaunchesPage = (props) => {
 
     const {
@@ -39,8 +41,10 @@ const UpcomingLaunchesPage = (props) => {
 
     const [searchText,onSearchtextChangeValue,clearSearchText] = useSearchInputHook('');
     const [isLoading,setLoadingValue] = useLoaderHook(false);
-    const [dataList, setData] = useState([]);
-    const [filterDataList, setFilterData] = useState([]);
+    const [allDataListData, setAllData] = useState([]);
+    const [filterDataListData, setFilterData] = useState([]);
+    const [hasMore, setHasMore] = useState(true);
+    const [offSetListView, setOffSetListView] = useState(0);
 
     const isFocused = useIsFocused();
     const dispatch = useDispatch();
@@ -53,7 +57,7 @@ const UpcomingLaunchesPage = (props) => {
 
     const resetStateValues = () => {
         clearSearchText();
-        setData([])
+        setAllData([])
         setFilterData([]);
     };
 
@@ -74,15 +78,32 @@ const UpcomingLaunchesPage = (props) => {
     };
     
     const getUpComingListSuccess = (response) => {
-        let dataList = response?.resultData?.data;
+
+        let responseData = response?.resultData?.data;
         let freshPull = response?.freshPull;
-        setData(dataList);
-        setFilterData(dataList);
+        let allDataList = freshPull ? [] : [...allDataListData];
+        let filterDataList = freshPull ? [] : [...filterDataListData];
+
+        responseData.length > 0 &&
+            responseData.forEach((each) => {
+                allDataList.push(each);
+            });
+        setAllData(allDataList);
+
+        responseData.length > 0 &&
+            responseData.forEach((each) => {
+                filterDataList.push(each);
+            });
+        setFilterData(filterDataList);
+
+        const hasMore = responseData && responseData.length < PAGE_LIMIT;
+        setHasMore(hasMore);
+
         setLoadingValue(false);
     };
 
     const getUpComingListError = (error) => {
-        setData([]);
+        setAllData([]);
         setFilterData([]);
         setLoadingValue(false);
     };
@@ -113,10 +134,10 @@ const UpcomingLaunchesPage = (props) => {
     const renderItem = ({ item, index }) => {
         return (
             <MenuCard
-                key={item.flight_number.toString()}
+                key={item?.flight_number.toString()}
                 launcherName={item?.mission_name}
                 launcherDescription={item?.details}
-                launcherReleasedDate={item.launch_date_local}
+                launcherReleasedDate={item?.launch_date_local}
                 onPress={() => onPressItem(item)}
                 index={index}
 
@@ -124,19 +145,32 @@ const UpcomingLaunchesPage = (props) => {
         )
     };
 
+    const fetchMore = () => {
+        if (!hasMore && !upcomingLaunchesEndReachedCalledDuringMomentum) {
+            let newOffSetListView = offSetListView + 1
+            setOffSetListView(newOffSetListView);
+            fetchData(false,newOffSetListView)
+            listViewOnEndReachedCalledDuringMomentum = true;
+        }
+    };
+
     const renderFlatListContainer = () => (
         <FlatList
-            nestedScrollEnabled
-            data={filterDataList}
+            data={filterDataListData}
             renderItem={renderItem}
             style={styles.listView}
             showsVerticalScrollIndicator={false}
-            keyExtractor={(item) => item.flight_number.toString()}
+            keyExtractor={(item) => item?.flight_number.toString()}
             contentContainerStyle={styles.listViewContainer}
             onRefresh={() => {
-                fetchData();
+                loadData();
             }}
             refreshing={isLoading}
+            onEndReachedThreshold={0.4}
+            onMomentumScrollBegin={() => {
+                upcomingLaunchesEndReachedCalledDuringMomentum = false;
+            }}
+            onEndReached={fetchMore}
         />
     );
 
@@ -155,7 +189,7 @@ const UpcomingLaunchesPage = (props) => {
                     renderFullLoadingIndicator()
                 }
             </View>
-            {!isLoading && filterDataList.length == 0 &&
+            {!isLoading && filterDataListData.length == 0 &&
                 renderNoResultList()
             }
         </SafeAreaView>
