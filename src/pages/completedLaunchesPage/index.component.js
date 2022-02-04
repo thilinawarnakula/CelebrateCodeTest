@@ -37,7 +37,8 @@ import {
   } from '../../services/helperService';
 
 import {
-    updateCompletedLaunches
+    updateCompletedLaunches,
+    updateFiltedCompletedLaunches
 } from '../../redux/actions/completedLaunchesAction';
 
 let completeLaunchesEndReachedCalledDuringMomentum = false;
@@ -46,7 +47,8 @@ const CompletedLaunchesPage = (props) => {
 
     const {
         navigation,
-        completeLaunchesList
+        completeLaunchesList,
+        completeLaunchesFilterdList
     } = props;
 
     const [searchText,onSearchtextChangeValue,clearSearchText] = useSearchInputHook('');
@@ -67,6 +69,7 @@ const CompletedLaunchesPage = (props) => {
     const resetStateValues = () => {
         clearSearchText();
         dispatch(updateCompletedLaunches([]));
+        dispatch(updateFiltedCompletedLaunches([]));
     };
 
     const loadData = () => {
@@ -94,7 +97,8 @@ const CompletedLaunchesPage = (props) => {
             responseData.forEach((each) => {
                 allDataList.push(each);
             });
-        dispatch(updateCompletedLaunches(allDataList))
+        dispatch(updateCompletedLaunches(allDataList));
+        dispatch(updateFiltedCompletedLaunches(allDataList));
 
         const hasMore = responseData && responseData.length < PAGE_LIMIT;
         setHasMore(hasMore);
@@ -104,6 +108,7 @@ const CompletedLaunchesPage = (props) => {
 
     const getCompletedListError = (error) => {
         dispatch(updateCompletedLaunches([]));
+        dispatch(updateFiltedCompletedLaunches([]));
         setLoadingValue(false);
     };
 
@@ -125,7 +130,7 @@ const CompletedLaunchesPage = (props) => {
 
     const searchItem = (text) => {
         const filteredData = filterItemsByMissionName(completeLaunchesList,text);
-        dispatch(updateCompletedLaunches(filteredData));
+        dispatch(updateFiltedCompletedLaunches(filteredData));
         setLoadingValue(false);
     };
 
@@ -177,7 +182,7 @@ const CompletedLaunchesPage = (props) => {
 
     const renderFlatListContainer = () => (
         <FlatList
-            data={completeLaunchesList}
+            data={completeLaunchesFilterdList}
             renderItem={renderItem}
             style={styles.listView}
             showsVerticalScrollIndicator={false}
@@ -212,7 +217,7 @@ const CompletedLaunchesPage = (props) => {
                     renderFullLoadingIndicator()
                 }
             </View>
-            {!isLoading && completeLaunchesList.length == 0 &&
+            {!isLoading && completeLaunchesFilterdList.length == 0 &&
                 renderNoResultList()
             }
         </SafeAreaView>
@@ -221,6 +226,7 @@ const CompletedLaunchesPage = (props) => {
 
 const mapStateToProps = (state) => ({
     completeLaunchesList: state?.completedLaunches?.completeLaunchesList,
+    completeLaunchesFilterdList: state?.completedLaunches?.completeLaunchesFilterdList,
 });
 
 export default connect(mapStateToProps)(memo(CompletedLaunchesPage));

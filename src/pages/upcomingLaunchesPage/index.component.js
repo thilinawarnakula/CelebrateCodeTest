@@ -37,7 +37,8 @@ import {
   } from '../../services/helperService';
 
 import {
-    updateUpComingLaunches
+    updateUpComingLaunches,
+    updateFilterdUpComingLaunches
 } from '../../redux/actions/upcomingLaunchesActions'
 
 let upcomingLaunchesEndReachedCalledDuringMomentum = false;
@@ -46,7 +47,8 @@ const UpcomingLaunchesPage = (props) => {
 
     const {
         navigation,
-        upcomingLaunchesList
+        upcomingLaunchesList,
+        upcomingLaunchesFilterdList
     } = props;
 
     const [searchText,onSearchtextChangeValue,clearSearchText] = useSearchInputHook('');
@@ -66,6 +68,7 @@ const UpcomingLaunchesPage = (props) => {
     const resetStateValues = () => {
         clearSearchText();
         dispatch(updateUpComingLaunches([]));
+        dispatch(updateFilterdUpComingLaunches([]));
     };
 
     const loadData = () => {
@@ -95,6 +98,7 @@ const UpcomingLaunchesPage = (props) => {
                 allDataList.push(each);
             });
         dispatch(updateUpComingLaunches(allDataList));
+        dispatch(updateFilterdUpComingLaunches(allDataList));
 
         const hasMore = responseData && responseData.length < PAGE_LIMIT;
         setHasMore(hasMore);
@@ -104,6 +108,7 @@ const UpcomingLaunchesPage = (props) => {
 
     const getUpComingListError = (error) => {
         dispatch(updateUpComingLaunches([]));
+        dispatch(updateFilterdUpComingLaunches([]));
         setLoadingValue(false);
     };
 
@@ -125,7 +130,7 @@ const UpcomingLaunchesPage = (props) => {
 
     const searchItem = (text) => {
         const filteredData = filterItemsByMissionName(upcomingLaunchesList,text);
-        dispatch(updateUpComingLaunches(filteredData));
+        dispatch(updateFilterdUpComingLaunches(filteredData));
         setLoadingValue(false);
     };
 
@@ -171,13 +176,13 @@ const UpcomingLaunchesPage = (props) => {
             let newOffSetListView = offSetListView + 1
             setOffSetListView(newOffSetListView);
             fetchData(false,newOffSetListView)
-            listViewOnEndReachedCalledDuringMomentum = true;
+            upcomingLaunchesEndReachedCalledDuringMomentum = true;
         }
     };
 
     const renderFlatListContainer = () => (
         <FlatList
-            data={upcomingLaunchesList}
+            data={upcomingLaunchesFilterdList}
             renderItem={renderItem}
             style={styles.listView}
             showsVerticalScrollIndicator={false}
@@ -212,7 +217,7 @@ const UpcomingLaunchesPage = (props) => {
                     renderFullLoadingIndicator()
                 }
             </View>
-            {!isLoading && upcomingLaunchesList.length == 0 &&
+            {!isLoading && upcomingLaunchesFilterdList.length == 0 &&
                 renderNoResultList()
             }
         </SafeAreaView>
@@ -221,6 +226,7 @@ const UpcomingLaunchesPage = (props) => {
 
 const mapStateToProps = (state) => ({
     upcomingLaunchesList: state?.upcomingLaunches?.upcomingLaunchesList,
+    upcomingLaunchesFilterdList: state?.upcomingLaunches?.upcomingLaunchesFilterdList,
 });
 
 export default connect(mapStateToProps)(memo(UpcomingLaunchesPage));
