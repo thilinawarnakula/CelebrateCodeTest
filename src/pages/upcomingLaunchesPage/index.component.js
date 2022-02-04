@@ -164,7 +164,7 @@ const UpcomingLaunchesPage = (props) => {
     };
 
     const fetchMore = () => {
-        if (!hasMore && !upcomingLaunchesEndReachedCalledDuringMomentum) {
+        if (!hasMore && !upcomingLaunchesEndReachedCalledDuringMomentum && searchText == '') {
             let newOffSetListView = offSetListView + 1
             setOffSetListView(newOffSetListView);
             fetchData(false,newOffSetListView)

@@ -4,7 +4,7 @@ export const filterItemsByMissionName = (dataList,searchText) => {
 
         const itemData = item.mission_name
             ? item.mission_name.toLowerCase()
-            : ''.toUpperCase();
+            : ''.toLowerCase();
         const textData = searchText.toLowerCase();
         return itemData.indexOf(textData) > -1;
     });

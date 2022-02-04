@@ -124,12 +124,13 @@ const CompletedLaunchesPage = (props) => {
     };
 
     const searchItem = (text) => {
-        const filteredData = filterItemsByMissionName(upcomingLaunchesList,text);
+        const filteredData = filterItemsByMissionName(completeLaunchesList,text);
         dispatch(updateCompletedLaunches(filteredData));
         setLoadingValue(false);
     };
 
     const clearText = () => {
+        loadData();
         clearSearchText();
     };
 
@@ -163,7 +164,7 @@ const CompletedLaunchesPage = (props) => {
     };
 
     const fetchMore = () => {
-        if (!hasMore && !completeLaunchesEndReachedCalledDuringMomentum) {
+        if (!hasMore && !completeLaunchesEndReachedCalledDuringMomentum && searchText == '') {
             let newOffSetListView = offSetListView + 1
             setOffSetListView(newOffSetListView);
             fetchData(false,newOffSetListView)
