@@ -1,36 +1,40 @@
-import React, { useEffect, memo } from 'react';
+import React, {useState,useEffect, memo } from 'react';
 import {
     SafeAreaView,
-    Text
+    View
 } from 'react-native';
 import styles from './index.styles';
-
-import { useIsFocused } from '@react-navigation/native';
 import { connect, useDispatch } from 'react-redux';
+import { useIsFocused } from '@react-navigation/native';
 
 import {
-    updateUpComingLaunches
-} from '../../redux/actions/upcomingLaunchesActions';
+    SERCH_TEXT_INPUT_COMPLETE_LAUNCHES_NAME,
+    NO_RESULT_SUB_HEADER,
+    NO_RESULT_HEADER
+} from '../../utilities/strings';
 
-import {
-    updateCompletedLaunches
-} from '../../redux/actions/completedLaunchesAction';
+import HomeHeader from '../../components/homeHeader/index.component';
+import NoResults from '../../components/noResults/index.component';
+import Loader from '../../components/loader/index.component';
 
+import useSearchInputHook from '../../customHooks/useSearchInputHook';
+import useLoaderHook from '../../customHooks/useLoaderHook';
 
 const CompletedLaunchesPage = (props) => {
 
     const {
-        upcomingLaunchesList,
-        completeLaunchesList,
         navigation
     } = props;
+
+    const [searchText,onSearchtextChangeValue,clearSearchText] = useSearchInputHook('');
+    const [isLoading,setLoadingValue] = useLoaderHook(false);
+    const [dataList, setData] = useState([]);
+    const [filterDataList, setFilterData] = useState([]);
 
     const isFocused = useIsFocused();
     const dispatch = useDispatch();
 
     const fetchData = () => {
-        dispatch(updateUpComingLaunches([1, 2, 3, 4]));
-        dispatch(updateCompletedLaunches([1, 2, 3, 4]));
     }
 
     useEffect(() => {
@@ -39,17 +43,68 @@ const CompletedLaunchesPage = (props) => {
         }
     }, [isFocused]);
 
+    const onTextChange = (text) => {
+        onSearchtextChangeValue(text);
+    };
+
+    const clearText = () => {
+        clearSearchText();
+    };
+
+    const renderHeader = () => (
+        <HomeHeader
+            searchText={searchText}
+            onChangeText={value => onTextChange(value)}
+            clearText={clearText}
+            textInputName={SERCH_TEXT_INPUT_COMPLETE_LAUNCHES_NAME}
+        />
+    );
+
+    const renderFullLoadingIndicator = () => ((isLoading) ? (
+        <View style={styles.loadingView}>
+            <Loader />
+        </View>
+    ) : null);
+
+    const renderFlatListContainer = () => (
+        <FlatList
+            nestedScrollEnabled
+            data={filterDataList}
+            renderItem={renderItem}
+            style={styles.listView}
+            showsVerticalScrollIndicator={false}
+            keyExtractor={(item) => item.id}
+            contentContainerStyle={styles.listViewContainer}
+            onRefresh={() => {
+                fetchData();
+            }}
+            refreshing={isLoading}
+        />
+    );
+
+    const renderNoResultList = () => (
+        <NoResults
+            headerText={NO_RESULT_HEADER}
+            subHeaderText={NO_RESULT_SUB_HEADER} />
+    );
+
     return (
         <SafeAreaView style={styles.mainContainer}>
-            <Text>{upcomingLaunchesList.length}</Text>
-            <Text>{completeLaunchesList.length}</Text>
+            {renderHeader()}
+            {renderFlatListContainer()}
+            <View style={styles.loadingContainer}>
+                {isLoading &&
+                    renderFullLoadingIndicator()
+                }
+            </View>
+            {!isLoading && filterDataList.length == 0 &&
+                renderNoResultList()
+            }
         </SafeAreaView>
     )
 }
 
 const mapStateToProps = (state) => ({
-    upcomingLaunchesList: state.upcomingLaunches.upcomingLaunchesList,
-    completeLaunchesList: state.completedLaunches.completeLaunchesList,
 });
 
 export default connect(mapStateToProps)(memo(CompletedLaunchesPage));
