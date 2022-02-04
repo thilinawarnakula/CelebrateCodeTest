@@ -29,6 +29,7 @@ import HomeHeader from '../../components/homeHeader/index.component';
 import NoResults from '../../components/noResults/index.component';
 import Loader from '../../components/loader/index.component';
 import MenuCard from '../../components/menuCard/index.component';
+import FilterModal from '../../components/filterModal/index.component';
 
 import useSearchInputHook from '../../customHooks/useSearchInputHook';
 import useLoaderHook from '../../customHooks/useLoaderHook';
@@ -41,6 +42,9 @@ import {
     updateUpComingLaunches,
     updateFilterdUpComingLaunches
 } from '../../redux/actions/upcomingLaunchesActions'
+import {
+    hadleFilterModal
+} from '../../redux/actions/filterAction'
 
 let upcomingLaunchesEndReachedCalledDuringMomentum = false;
 
@@ -146,6 +150,7 @@ const UpcomingLaunchesPage = (props) => {
             onChangeText={value => onTextChange(value)}
             clearText={clearText}
             textInputName={SERCH_TEXT_INPUT_HEADER}
+            onPressFilter={openFilterOptions}
         />
     );
 
@@ -174,6 +179,10 @@ const UpcomingLaunchesPage = (props) => {
             item,
 
         });
+    };
+
+    const openFilterOptions = (item) => {
+       dispatch(hadleFilterModal(true))
     };
 
     const fetchMore = () => {
@@ -225,6 +234,7 @@ const UpcomingLaunchesPage = (props) => {
             {!isLoading && upcomingLaunchesFilterdList.length == 0 &&
                 renderNoResultList()
             }
+            <FilterModal/>
         </SafeAreaView>
     )
 }

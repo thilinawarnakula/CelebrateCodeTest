@@ -7,5 +7,6 @@ export const DETAILS_PAGE = 'Details Page';
 export const APP_NAME = 'SpaceX';
 export const YOUTUBE = 'YouTube';
 export const WIKI = 'WIKI';
+export const FILTER_HEADER_TEXT = 'Custom Filters';
 
 

@@ -21,18 +21,22 @@ const HomeHeader = ({
     onChangeText,
     searchText,
     clearText,
-    textInputName
+    textInputName,
+    onPressFilter
 }) => {
 
     return (
         <View style={styles.container}>
-            <AntDesign name={'rocket1'} size={40} color={COLORS.white}/>
-            <CustomInput 
-                searchText={searchText} 
-                onChangeText={onChangeText} 
-                clearText={clearText}
-                textInputName={textInputName}
-                placeholderName={SERCH_TEXT_PlACE_HOLDER_INPUT_NAME}/>
+            <AntDesign name={'rocket1'} size={40} color={COLORS.white} />
+            <View style={styles.filterContainer}>
+                <CustomInput
+                    searchText={searchText}
+                    onChangeText={onChangeText}
+                    clearText={clearText}
+                    textInputName={textInputName}
+                    placeholderName={SERCH_TEXT_PlACE_HOLDER_INPUT_NAME} />
+                <AntDesign onPress={onPressFilter} style={styles.filterIcon} name={'filter'} size={30} color={COLORS.white} />
+            </View>
         </View>
     );
 };

@@ -25,6 +25,13 @@ const style = EStyleSheet.create({
     iconView:{
         width : '30rem',
         height : '30rem',
+    },
+    filterContainer:{
+        flexDirection:'row',
+        alignItems:'center'
+    },
+    filterIcon:{
+       marginTop:'10rem'
     }
 });
 

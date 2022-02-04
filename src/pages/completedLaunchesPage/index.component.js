@@ -146,6 +146,7 @@ const CompletedLaunchesPage = (props) => {
             onChangeText={value => onTextChange(value)}
             clearText={clearText}
             textInputName={SERCH_TEXT_INPUT_HEADER}
+            onPressFilter={openFilterOptions}
         />
     );
 
