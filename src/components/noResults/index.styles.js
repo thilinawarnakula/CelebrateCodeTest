@@ -11,7 +11,7 @@ EStyleSheet.build({ $rem: entireScreenWidth / 380 });
 
 const style = EStyleSheet.create({
     container: {
-        backgroundColor : COLORS.white,
+        backgroundColor : COLORS.transparent,
         flex : 1,
         justifyContent: 'center',
         alignItems: 'center',

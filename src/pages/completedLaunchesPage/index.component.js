@@ -3,7 +3,6 @@ import {
     SafeAreaView,
     View,
     FlatList,
-    Text
 } from 'react-native';
 import styles from './index.styles';
 import {
@@ -11,9 +10,11 @@ import {
 } from './index.controller';
 import { connect, useDispatch } from 'react-redux';
 import { useIsFocused } from '@react-navigation/native';
+import _, {debounce} from 'lodash';
+import {memoize} from 'lodash/fp';
 
 import {
-    SERCH_TEXT_INPUT_COMPLETE_LAUNCHES_NAME,
+    SERCH_TEXT_INPUT_HEADER,
     NO_RESULT_SUB_HEADER,
     NO_RESULT_HEADER
 } from '../../utilities/strings';
@@ -30,6 +31,10 @@ import MenuCard from '../../components/menuCard/index.component';
 
 import useSearchInputHook from '../../customHooks/useSearchInputHook';
 import useLoaderHook from '../../customHooks/useLoaderHook';
+
+import {
+    filterItemsByMissionName
+  } from '../../services/helperService';
 
 import {
     updateCompletedLaunches
@@ -103,7 +108,25 @@ const CompletedLaunchesPage = (props) => {
     };
 
     const onTextChange = (text) => {
+        setLoadingValue(true);
         onSearchtextChangeValue(text);
+        if (text !== '') {
+            const func = memoize(
+                debounce(() => {
+                    searchItem(text);
+                }, 300),
+            );
+            func();
+        } else {
+            loadData();
+            setLoadingValue(false);
+        }
+    };
+
+    const searchItem = (text) => {
+        const filteredData = filterItemsByMissionName(upcomingLaunchesList,text);
+        dispatch(updateCompletedLaunches(filteredData));
+        setLoadingValue(false);
     };
 
     const clearText = () => {
@@ -115,7 +138,7 @@ const CompletedLaunchesPage = (props) => {
             searchText={searchText}
             onChangeText={value => onTextChange(value)}
             clearText={clearText}
-            textInputName={SERCH_TEXT_INPUT_COMPLETE_LAUNCHES_NAME}
+            textInputName={SERCH_TEXT_INPUT_HEADER}
         />
     );
 
@@ -176,8 +199,10 @@ const CompletedLaunchesPage = (props) => {
 
     return (
         <SafeAreaView style={styles.mainContainer}>
-            {renderHeader()}
-            {renderFlatListContainer()}
+            <View>
+                {renderHeader()}
+                {renderFlatListContainer()}
+            </View>
             <View style={styles.loadingContainer}>
                 {isLoading &&
                     renderFullLoadingIndicator()
