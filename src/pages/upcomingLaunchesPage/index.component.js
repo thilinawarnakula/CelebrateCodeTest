@@ -35,7 +35,7 @@ import useSearchInputHook from '../../customHooks/useSearchInputHook';
 import useLoaderHook from '../../customHooks/useLoaderHook';
 
 import {
-    filterItemsByMissionName
+    filterItems
   } from '../../services/helperService';
 
 import {
@@ -53,7 +53,9 @@ const UpcomingLaunchesPage = (props) => {
     const {
         navigation,
         upcomingLaunchesList,
-        upcomingLaunchesFilterdList
+        upcomingLaunchesFilterdList,
+        filterStartDate,
+        filterEndDate
     } = props;
 
     const [searchText,onSearchtextChangeValue,clearSearchText] = useSearchInputHook('');
@@ -134,7 +136,7 @@ const UpcomingLaunchesPage = (props) => {
     };
 
     const searchItem = (text) => {
-        const filteredData = filterItemsByMissionName(upcomingLaunchesList,text);
+        const filteredData = filterItems(upcomingLaunchesList,text,filterStartDate,filterEndDate);
         dispatch(updateFilterdUpComingLaunches(filteredData));
         setLoadingValue(false);
     };
@@ -243,6 +245,8 @@ const UpcomingLaunchesPage = (props) => {
 const mapStateToProps = (state) => ({
     upcomingLaunchesList: state?.upcomingLaunches?.upcomingLaunchesList,
     upcomingLaunchesFilterdList: state?.upcomingLaunches?.upcomingLaunchesFilterdList,
+    filterStartDate: state.filters.filterStartDate,
+    filterEndDate: state.filters.filterEndDate,
 });
 
 export default connect(mapStateToProps)(memo(UpcomingLaunchesPage));

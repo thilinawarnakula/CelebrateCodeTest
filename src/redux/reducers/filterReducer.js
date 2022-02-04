@@ -20,12 +20,12 @@ export default (state = INITIAL_STATE, action) => {
         case HANDLE_FILTER_START_DATE:
             return {
                 ...state,
-                showFilters: action.payload,
+                filterStartDate: action.payload,
             };
         case HANDLE_FILTER_END_DATE:
             return {
                 ...state,
-                showFilters: action.payload,
+                filterEndDate: action.payload,
             };
         default:
             return state;

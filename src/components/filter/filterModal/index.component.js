@@ -10,6 +10,10 @@ import {
     COLORS,
 } from '../../../utilities/colors';
 import {
+    START_DATE,
+    END_DATE,
+} from '../../../utilities/constants';
+import {
     FILTER_HEADER_TEXT,
     START_DATE_FILTER,
     END_DATE_FILTER,
@@ -28,12 +32,16 @@ import CustomButton from '../../customButton/index.component';
 
 import styles from './index.styles';
 import {
-    hadleFilterModal
-} from '../../../redux/actions/filterAction'
+    hadleFilterModal, 
+    handleStartDate,
+    handleEndDate
+} from '../../../redux/actions/filterAction';
 
-import EStyleSheet from 'react-native-extended-stylesheet';
-const entireScreenWidth = Dimensions.get('window').width;
-EStyleSheet.build({ $rem: entireScreenWidth / 380 });
+import {
+    checkFilterDate,
+    
+} from '../../../services/helperService';
+
 
 const FilterModal = (props) => {
 
@@ -47,11 +55,14 @@ const FilterModal = (props) => {
 
     const closeModal = () => {
         dispatch(hadleFilterModal(false));
+        dispatch(handleStartDate(false));
+        dispatch(handleEndDate(false));
     };
 
     const onPressApply = () => {
-       if(_.isEmpty(null) || _.isEmpty(null)){
-            showError()
+       isValidDates = checkFilterDate(filterStartDate,filterEndDate);
+       if(!isValidDates){
+            showError();
            return;
        }
     };
@@ -83,8 +94,8 @@ const FilterModal = (props) => {
                     <AntDesign name={'close'} size={25} color={COLORS.primary} />
                 </TouchableOpacity>
                 <CustomTextView textValue={FILTER_HEADER_TEXT} textStyle={styles.filterHeaderText} />
-                <DateFilter textValue={START_DATE_FILTER}/>
-                <DateFilter textValue={END_DATE_FILTER}/>
+                <DateFilter textValue={START_DATE_FILTER} dateType={START_DATE}/>
+                <DateFilter textValue={END_DATE_FILTER} dateType={END_DATE}/>
                 <View style={styles.buttonContainer}>
                     <CustomButton textValue={FILTER_BUTTON} onPress={onPressApply}/>
                 </View>

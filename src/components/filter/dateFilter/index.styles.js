@@ -9,7 +9,6 @@ EStyleSheet.build({ $rem: entireScreenWidth / 380 });
 
 const style = EStyleSheet.create({
     mainContiner: {
-        flexDirection: 'row',
         alignSelf: 'flex-start',
         padding:'20rem',
         marginLeft : '10rem'
@@ -19,7 +18,13 @@ const style = EStyleSheet.create({
         fontSize: '16rem',
         textAlign: 'left',
         
-    }
+    },
+    dateValue:{ 
+        color: COLORS.black,
+        fontSize: '15rem',
+        textAlign: 'left',
+        marginLeft : '10rem'
+    },
 });
 
 export default style;

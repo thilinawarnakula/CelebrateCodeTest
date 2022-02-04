@@ -10,12 +10,12 @@ export const hadleFilterModal = (status) => ({
     payload: status
 });
 
-export const setStartDate = (startDate) => ({
+export const handleStartDate = (startDate) => ({
     type: HANDLE_FILTER_START_DATE,
     payload: startDate
 });
 
-export const setEndDate = (endDate) => ({
+export const handleEndDate = (endDate) => ({
     type: HANDLE_FILTER_END_DATE,
     payload: endDate
 });

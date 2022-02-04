@@ -12,7 +12,7 @@ export const START_DATE_FILTER = 'Start Date : ';
 export const END_DATE_FILTER = 'End Date :';
 export const FILTER_BUTTON = 'Apply';
 export const FILTER_ERROR = 'Error!';
-export const FILTER_ERROR_MESSAGE = 'Please add the filters';
+export const FILTER_ERROR_MESSAGE = 'Please enter valid dates';
 export const FILTER_ERROR_OK = 'Ok';
 
 
