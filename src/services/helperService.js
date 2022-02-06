@@ -1,4 +1,5 @@
 import moment from 'moment';
+import _ from 'lodash';
 import {
     hadleFilterModal
 } from '../redux/actions/filterAction'
@@ -6,25 +7,30 @@ import {
 export const filterItems = (dataList,searchText,startDate,endDate) => {
     let startDateValue = moment(startDate);
     let endDateValue = moment(endDate);
+
+    let filtertedDataList = [];
     
-    let filteredData = dataList.filter((item) => {
+    // search by mission name
+    if(!_.isEmpty(searchText)){
+        filtertedDataList = dataList.filter((item) => {
 
-        const itemData = item.mission_name
-            ? item.mission_name.toLowerCase()
-            : ''.toLowerCase();
-        const textData = searchText.toLowerCase();
-        return itemData.indexOf(textData) > -1;
-    });
+            let itemMissionName = item.mission_name
+                ? item.mission_name.toLowerCase()
+                : ''.toLowerCase();
+            let textData = searchText.toLowerCase();
+            return itemMissionName.indexOf(textData) > -1;
+        });
+    };
 
+    // filter by start and end date
     if (startDateValue.isValid() && endDateValue.isValid()) {
-        filteredData = filteredData.filter(dateItem => {
+        filtertedDataList = filtertedDataList.filter(dateItem => {
             let itemDate = moment(dateItem.launch_date_local);
             return (itemDate >= startDateValue && itemDate <= endDateValue);
         });
-        return filteredData;
-    } else {
-        return filteredData;
-    } 
+    }
+
+    return filtertedDataList;
 };
 
 export const checkFilterDate = (startDate,endDate) => {

@@ -2,7 +2,8 @@
 import React, {Component} from 'react';
 import RootNavigator from '../src/navigation/RootNavigator';
 import {
-  View
+  View,
+  LogBox
 } from 'react-native';
 
 import { Provider } from 'react-redux';
@@ -26,6 +27,7 @@ class App extends Component {
   }
 
   render() {
+    LogBox.ignoreAllLogs();
     return (
       <Provider store={createStore(reducers, {}, applyMiddleware(ReduxThunk))}>
         <View style={{ flex: 1 }}>
