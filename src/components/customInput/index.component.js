@@ -1,21 +1,15 @@
 import React from 'react';
 import {
-    Dimensions,
-    View,
-    TextInput,
     Image,
-    TouchableOpacity,
-    Text
+    Text, 
+    TextInput,
+    TouchableOpacity, 
+    View
 } from 'react-native';
-import { 
-    CLEAR_ICON,
+import {
+    CLEAR_ICON
 } from '../../utilities/icons';
-
 import styles from './index.styles';
-
-import EStyleSheet from 'react-native-extended-stylesheet';
-const entireScreenWidth = Dimensions.get('window').width;
-EStyleSheet.build({ $rem: entireScreenWidth / 380 });
 
 const CustomInput = (props) => {
 

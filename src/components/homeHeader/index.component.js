@@ -1,21 +1,16 @@
 import React from 'react';
 import {
     Dimensions,
-    View,
+    View
 } from 'react-native';
+import EStyleSheet from 'react-native-extended-stylesheet';
+import AntDesign from 'react-native-vector-icons/AntDesign';
+import { COLORS } from '../../utilities/colors';
 import {
     SERCH_TEXT_PlACE_HOLDER_INPUT_NAME
 } from '../../utilities/strings';
-import { COLORS } from '../../utilities/colors';
-
-import styles from './index.styles';
-
 import CustomInput from '../customInput/index.component';
-import AntDesign from 'react-native-vector-icons/AntDesign';
-
-import EStyleSheet from 'react-native-extended-stylesheet';
-const entireScreenWidth = Dimensions.get('window').width;
-EStyleSheet.build({ $rem: entireScreenWidth / 380 });
+import styles from './index.styles';
 
 const HomeHeader = ({
     onChangeText,

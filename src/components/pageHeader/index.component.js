@@ -1,12 +1,10 @@
 import React from 'react';
-import { 
-    Dimensions,
+import {
     SafeAreaView,
     View,
     StatusBar,
     Text,
-    TouchableOpacity,
-    Image
+    TouchableOpacity
 } from 'react-native';
 import EStyleSheet from 'react-native-extended-stylesheet';
 import { 
@@ -17,9 +15,6 @@ import {
 } from '../../utilities/strings';
 import styles from './index.styles';
 import Feather from 'react-native-vector-icons/Feather';
-
-const entireScreenWidth = Dimensions.get('window').width;
-EStyleSheet.build({ $rem: entireScreenWidth / 380 });
 
 const PageHeader = (props) => {
     const {

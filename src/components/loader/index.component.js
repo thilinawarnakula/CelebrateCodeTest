@@ -1,17 +1,10 @@
 import React from 'react';
 import {
-    Dimensions,
-    View,
-    Text,
-    ActivityIndicator
+    ActivityIndicator, View
 } from 'react-native';
-import {COLORS} from '../../utilities/colors';
-
+import { COLORS } from '../../utilities/colors';
 import styles from './index.styles';
 
-import EStyleSheet from 'react-native-extended-stylesheet';
-const entireScreenWidth = Dimensions.get('window').width;
-EStyleSheet.build({ $rem: entireScreenWidth / 380 });
 
 const Loader = ({}) => {
 

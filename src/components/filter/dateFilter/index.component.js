@@ -1,23 +1,17 @@
-import React,{useState} from 'react';
-import {
-    TouchableOpacity,
-} from 'react-native';
-import {connect,useDispatch} from 'react-redux';
-import DatePicker from 'react-native-date-picker'
 import moment from 'moment';
-
+import React, { useState } from 'react';
 import {
-    START_DATE,
-    END_DATE,
+    TouchableOpacity
+} from 'react-native';
+import DatePicker from 'react-native-date-picker';
+import { connect, useDispatch } from 'react-redux';
+import {
+    handleEndDate, handleStartDate
+} from '../../../redux/actions/filterAction';
+import {
+    END_DATE, START_DATE
 } from '../../../utilities/constants';
-
-import {
-    handleStartDate,
-    handleEndDate
-} from '../../../redux/actions/filterAction'
-
 import CustomTextView from '../../customTextView/index.component';
-
 import styles from './index.styles';
 
 const DateFilter = (props) => {

@@ -1,23 +1,17 @@
-import React, { Component } from 'react';
-import { View, Dimensions, Animated, TouchableOpacity } from 'react-native';
-import EStyleSheet from 'react-native-extended-stylesheet';
-import styles from './index.styles';
 import moment from 'moment';
-import { 
-  NO_DESCRIPTION,
-} from '../../utilities/strings';
-import { 
-  COLORS,
-} from '../../utilities/colors';
-
+import React from 'react';
+import { TouchableOpacity, View } from 'react-native';
 import AntDesign from 'react-native-vector-icons/AntDesign';
-
-const entireScreenWidth = Dimensions.get('window').width;
-EStyleSheet.build({ $rem: entireScreenWidth / 380 });
+import {
+  COLORS
+} from '../../utilities/colors';
+import {
+  NO_DESCRIPTION
+} from '../../utilities/strings';
+import CustomTextView from '../customTextView/index.component';
+import styles from './index.styles';
 
 const SUCCESS_LAUNCH = true;
-
-import CustomTextView from '../customTextView/index.component';
 
 const MenuCard = (props) => {
   const {

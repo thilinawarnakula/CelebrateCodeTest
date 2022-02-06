@@ -1,19 +1,11 @@
 import React from 'react';
 import {
-    Dimensions,
-    View,
-    Text,
-    Image
+    Text, 
+    View
 } from 'react-native';
-
 import Feather from 'react-native-vector-icons/Feather';
-
-import styles from './index.styles';
-
-import EStyleSheet from 'react-native-extended-stylesheet';
 import { COLORS } from '../../utilities/colors';
-const entireScreenWidth = Dimensions.get('window').width;
-EStyleSheet.build({ $rem: entireScreenWidth / 380 });
+import styles from './index.styles';
 
 const NoResults = ({
     headerText,

@@ -1,29 +1,24 @@
 import React from 'react';
 import {
-    Text,
-    Dimensions,
     TouchableOpacity
 } from 'react-native';
-
-import styles from './index.styles';
-
 import CustomTextView from '../customTextView/index.component';
-
+import styles from './index.styles';
 
 const CustomButton = (props) => {
 
     const {
         textValue,
         onPress,
-        containerStyle={},
+        containerStyle = {},
         textStyle = {}
     } = props;
 
     return (
         <TouchableOpacity
-            style={[styles.mainContianer,containerStyle]}
+            style={[styles.mainContianer, containerStyle]}
             onPress={onPress}>
-                <CustomTextView textValue={textValue} textStyle={[styles.buttonTextLable,textStyle]} />
+            <CustomTextView textValue={textValue} textStyle={[styles.buttonTextLable, textStyle]} />
         </TouchableOpacity>
     );
 };
