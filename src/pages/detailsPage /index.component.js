@@ -1,35 +1,28 @@
-import React, {useState,useEffect} from 'react';
-import {
-    SafeAreaView, View,ScrollView,Linking
-} from 'react-native';
-import styles from './index.styles';
-import {
-    getFlighData
-} from './index.controller';
 import { useIsFocused } from '@react-navigation/native';
 import moment from 'moment';
-
+import React, { useEffect, useState } from 'react';
+import { Linking, SafeAreaView, ScrollView, View } from 'react-native';
+import CustomIcon from '../../components/customIcon/index.component';
+import CustomTextView from '../../components/customTextView/index.component';
+import InfoTags from '../../components/infoTags/index.component';
+import Loader from '../../components/loader/index.component';
+import PageHeader from '../../components/pageHeader/index.component';
+import useLoaderHook from '../../customHooks/useLoaderHook';
+import {
+    WIKI_CLICK, YOUTUBE_CLICK
+} from '../../utilities/constants';
+import {
+    ROCKET_ICON
+} from '../../utilities/icons';
 import {
     DETAILS_PAGE,
     NO_DESCRIPTION,
-    YOUTUBE,
-    WIKI
+    WIKI, YOUTUBE
 } from '../../utilities/strings';
 import {
-    YOUTUBE_CLICK,
-    WIKI_CLICK
-} from '../../utilities/constants';
-import { 
-    ROCKET_ICON,
-} from '../../utilities/icons';
-
-import useLoaderHook from '../../customHooks/useLoaderHook';
-
-import PageHeader from '../../components/pageHeader/index.component';
-import CustomTextView from '../../components/customTextView/index.component';
-import CustomIcon from '../../components/customIcon/index.component';
-import Loader from '../../components/loader/index.component';
-import InfoTags from '../../components/infoTags/index.component'
+    getFlighData
+} from './index.controller';
+import styles from './index.styles';
 
 const DetailsPage = (props) => {
 

@@ -1,55 +1,43 @@
-import React, {useState,useEffect, memo } from 'react';
-import {
-    SafeAreaView,
-    View,
-    FlatList,
-} from 'react-native';
-import styles from './index.styles';
-import globleStyles from '../../utilities/styles';
-import {
-    getCompletedList
-} from './index.controller';
-import { connect, useDispatch } from 'react-redux';
 import { useIsFocused } from '@react-navigation/native';
-import _, {debounce} from 'lodash';
-import {memoize} from 'lodash/fp';
+import { debounce } from 'lodash';
+import { memoize } from 'lodash/fp';
 import moment from 'moment';
-
+import React, { memo, useEffect, useState } from 'react';
 import {
-    SERCH_TEXT_INPUT_HEADER,
-    NO_RESULT_SUB_HEADER,
-    NO_RESULT_HEADER,
-    CLEAR_FILTERS
-} from '../../utilities/strings';
-
-import {
-    PAGE_LIMIT,
-    INITIAL_PAGE_OFFSET
-} from '../../utilities/constants';
-import { HOME_SCREEN } from '../../navigation/NavigationConstants';
-
+    FlatList, SafeAreaView,
+    View
+} from 'react-native';
+import { connect, useDispatch } from 'react-redux';
+import CustomButton from '../../components/customButton/index.component';
+import FilterModal from '../../components/filter/filterModal/index.component';
 import HomeHeader from '../../components/homeHeader/index.component';
-import NoResults from '../../components/noResults/index.component';
 import Loader from '../../components/loader/index.component';
 import MenuCard from '../../components/menuCard/index.component';
-import FilterModal from '../../components/filter/filterModal/index.component';
-import CustomButton from '../../components/customButton/index.component';
-
-import useSearchInputHook from '../../customHooks/useSearchInputHook';
+import NoResults from '../../components/noResults/index.component';
 import useLoaderHook from '../../customHooks/useLoaderHook';
-
-import {
-    filterItems,
-    clearDateFilters
-  } from '../../services/helperService';
-
+import useSearchInputHook from '../../customHooks/useSearchInputHook';
+import { HOME_SCREEN } from '../../navigation/NavigationConstants';
 import {
     updateCompletedLaunches,
     updateFiltedCompletedLaunches
 } from '../../redux/actions/completedLaunchesAction';
 import {
     hadleFilterModal
-} from '../../redux/actions/filterAction'
+} from '../../redux/actions/filterAction';
+import {
+    clearDateFilters, filterItems
+} from '../../services/helperService';
+import {
+    INITIAL_PAGE_OFFSET, PAGE_LIMIT
+} from '../../utilities/constants';
+import {
+    CLEAR_FILTERS, NO_RESULT_HEADER, NO_RESULT_SUB_HEADER, SERCH_TEXT_INPUT_HEADER
+} from '../../utilities/strings';
+import globleStyles from '../../utilities/styles';
+import {
+    getCompletedList
+} from './index.controller';
+import styles from './index.styles';
 
 let completeLaunchesEndReachedCalledDuringMomentum = false;
 
