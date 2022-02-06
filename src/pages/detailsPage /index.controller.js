@@ -7,7 +7,7 @@ export const getFlighData = async (
 ) => {
   try {
     const response = await api.get(`/launches?flight_id=${flightId}`);
-    console.log("getFlighData -- : ",response);
+    console.log("getFlighData -- : Success");
     getFlighDataSuccess(response);
   } catch (error) {
     console.error("getFlighData ERROR -- : ",error);

@@ -8,9 +8,8 @@ export const getUpComingList = async (
     getUpComingListError,
 ) => {
   try {
-    console.log(`/launches/upcoming?offset=${offset}&limit=${limit}`)
     const response = await api.get(`/launches/upcoming?offset=${offset}&limit=${limit}&id=true`);
-    console.log("getUpComingList -- : ",response);
+    console.log("getUpComingList -- : Success");
     getUpComingListSuccess( {
       freshPull,
       resultData:response
