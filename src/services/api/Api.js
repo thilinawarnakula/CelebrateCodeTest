@@ -2,7 +2,7 @@ import axios from 'axios';
 
 export default class Api {
 
-   axiosApi;
+  axiosApi;
 
   constructor(baseUrl) {
     this.axiosApi = axios.create({
