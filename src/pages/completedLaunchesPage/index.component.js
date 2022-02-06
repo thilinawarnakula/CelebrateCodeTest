@@ -67,6 +67,8 @@ const CompletedLaunchesPage = (props) => {
     }, [isFocused]);
 
     const resetFiltersAndSeachText = () => {
+        setOffSetListView(0);
+        setHasMore(true);
         clearSearchText();
         clearFilters();
     };
