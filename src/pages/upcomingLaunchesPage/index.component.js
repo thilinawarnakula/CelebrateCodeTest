@@ -2,7 +2,7 @@ import { useIsFocused } from '@react-navigation/native';
 import { debounce } from 'lodash';
 import { memoize } from 'lodash/fp';
 import moment from 'moment';
-import React, { memo, useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import {
     FlatList, SafeAreaView,
     View
@@ -220,7 +220,6 @@ const UpcomingLaunchesPage = (props) => {
             renderItem={renderItem}
             style={styles.listView}
             showsVerticalScrollIndicator={false}
-            keyExtractor={(item) => item?._id}
             contentContainerStyle={styles.listViewContainer}
             onRefresh={() => {
                 loadData();
@@ -267,4 +266,4 @@ const mapStateToProps = (state) => ({
     filterEndDate: state.filters.filterEndDate,
 });
 
-export default connect(mapStateToProps)(memo(UpcomingLaunchesPage));
+export default connect(mapStateToProps)(UpcomingLaunchesPage);
