@@ -6,7 +6,8 @@
     "ios": {
       "name": "CelebrateProject",
       "type": "ios.app",
-      "binaryPath": "ios/build/Build/Products/Debug-iphonesimulator/CelebrateProject.app"
+      "binaryPath": "ios/build/Build/Products/Debug-iphonesimulator/CelebrateProject.app",
+      "build": "xcodebuild -project ios/CelebrateProject.xcodeproj -UseNewBuildSystem=NO -scheme CelebrateProject -configuration Debug -sdk iphonesimulator -derivedDataPath ios/build"
     },
     "android": {
       "type": "android.apk",
