@@ -26,7 +26,7 @@ import {
 } from '../../redux/actions/filterAction';
 import {
     clearDateFilters, filterItems
-} from '../../services/helperService';
+} from '../../services/launcherService';
 import {
     INITIAL_PAGE_OFFSET, PAGE_LIMIT
 } from '../../utilities/constants';
