@@ -1,4 +1,7 @@
 import moment from 'moment';
+import {
+    hadleFilterModal
+} from '../redux/actions/filterAction'
 
 export const filterItems = (dataList,searchText,startDate,endDate) => {
     let startDateValue = moment(startDate);
@@ -22,7 +25,7 @@ export const filterItems = (dataList,searchText,startDate,endDate) => {
     } else {
         return filteredData;
     } 
-}
+};
 
 export const checkFilterDate = (startDate,endDate) => {
     let startDateValue = moment(startDate);
@@ -32,4 +35,8 @@ export const checkFilterDate = (startDate,endDate) => {
         return false;
     }
      return startDateValue.isBefore(endDateValue);;
-}
+};
+
+export const clearDateFilters = (dispatch) => {
+   dispatch(hadleFilterModal(null))
+};

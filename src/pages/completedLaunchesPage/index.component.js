@@ -5,6 +5,7 @@ import {
     FlatList,
 } from 'react-native';
 import styles from './index.styles';
+import globleStyles from '../../utilities/styles';
 import {
     getCompletedList
 } from './index.controller';
@@ -17,7 +18,8 @@ import moment from 'moment';
 import {
     SERCH_TEXT_INPUT_HEADER,
     NO_RESULT_SUB_HEADER,
-    NO_RESULT_HEADER
+    NO_RESULT_HEADER,
+    CLEAR_FILTERS
 } from '../../utilities/strings';
 
 import {
@@ -31,12 +33,14 @@ import NoResults from '../../components/noResults/index.component';
 import Loader from '../../components/loader/index.component';
 import MenuCard from '../../components/menuCard/index.component';
 import FilterModal from '../../components/filter/filterModal/index.component';
+import CustomButton from '../../components/customButton/index.component';
 
 import useSearchInputHook from '../../customHooks/useSearchInputHook';
 import useLoaderHook from '../../customHooks/useLoaderHook';
 
 import {
-    filterItems
+    filterItems,
+    clearDateFilters
   } from '../../services/helperService';
 
 import {
@@ -74,14 +78,13 @@ const CompletedLaunchesPage = (props) => {
         }
     }, [isFocused]);
 
-    const resetStateValues = () => {
+    const resetFiltersAndSeachText = () => {
         clearSearchText();
-        dispatch(updateCompletedLaunches([]));
-        dispatch(updateFiltedCompletedLaunches([]));
+        clearFilters();
     };
 
     const loadData = () => {
-        resetStateValues();
+        resetFiltersAndSeachText();
         setLoadingValue(true);
         fetchData(true,INITIAL_PAGE_OFFSET);
     };
@@ -208,6 +211,10 @@ const CompletedLaunchesPage = (props) => {
         setLoadingValue(false);
     };
 
+    const clearFilters = () => {
+        clearDateFilters(dispatch);
+    };
+
     const renderFlatListContainer = () => (
         <FlatList
             data={completeLaunchesFilterdList}
@@ -234,10 +241,19 @@ const CompletedLaunchesPage = (props) => {
             subHeaderText={NO_RESULT_SUB_HEADER} />
     );
 
+    const renderFilterButton = () => (
+        <CustomButton
+            containerStyle={globleStyles.restFilterContiner}
+            textValue={CLEAR_FILTERS}
+            onPress={loadData}
+            textStyle={globleStyles.buttonTextStyle} />
+    );
+
     return (
         <SafeAreaView style={styles.mainContainer}>
             <View>
                 {renderHeader()}
+                {!isLoading && completeLaunchesFilterdList.length == 0 && renderFilterButton()}
                 {renderFlatListContainer()}
             </View>
             <View style={styles.loadingContainer}>

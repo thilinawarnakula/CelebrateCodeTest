@@ -14,5 +14,6 @@ export const FILTER_BUTTON = 'Apply';
 export const FILTER_ERROR = 'Error!';
 export const FILTER_ERROR_MESSAGE = 'Please enter valid dates';
 export const FILTER_ERROR_OK = 'Ok';
+export const CLEAR_FILTERS = 'Clear Filters';
 
 

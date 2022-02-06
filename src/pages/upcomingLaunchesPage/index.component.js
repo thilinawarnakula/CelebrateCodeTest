@@ -5,6 +5,7 @@ import {
     FlatList,
 } from 'react-native';
 import styles from './index.styles';
+import globleStyles from '../../utilities/styles';
 import {
     getUpComingList
 } from './index.controller';
@@ -12,7 +13,8 @@ import {
 import {
     SERCH_TEXT_INPUT_HEADER,
     NO_RESULT_SUB_HEADER,
-    NO_RESULT_HEADER
+    NO_RESULT_HEADER,
+    CLEAR_FILTERS
 } from '../../utilities/strings';
 import {
     PAGE_LIMIT,
@@ -31,12 +33,14 @@ import NoResults from '../../components/noResults/index.component';
 import Loader from '../../components/loader/index.component';
 import MenuCard from '../../components/menuCard/index.component';
 import FilterModal from '../../components/filter/filterModal/index.component';
+import CustomButton from '../../components/customButton/index.component';
 
 import useSearchInputHook from '../../customHooks/useSearchInputHook';
 import useLoaderHook from '../../customHooks/useLoaderHook';
 
 import {
-    filterItems
+    filterItems,
+    clearDateFilters
   } from '../../services/helperService';
 
 import {
@@ -70,17 +74,17 @@ const UpcomingLaunchesPage = (props) => {
     useEffect(() => {
         if (isFocused) {
             loadData();
+            clearDateFilters(dispatch);
         }
     }, [isFocused]);
 
-    const resetStateValues = () => {
+    const resetFiltersAndSeachText = () => {
         clearSearchText();
-        dispatch(updateUpComingLaunches([]));
-        dispatch(updateFilterdUpComingLaunches([]));
+        clearFilters();
     };
 
     const loadData = () => {
-        resetStateValues();
+        resetFiltersAndSeachText();
         setLoadingValue(true);
         fetchData(true,INITIAL_PAGE_OFFSET);
     };
@@ -196,6 +200,10 @@ const UpcomingLaunchesPage = (props) => {
         setLoadingValue(false);
     };
 
+    const clearFilters = () => {
+        clearDateFilters(dispatch);
+    };
+
     const fetchMore = () => {
         let startDateValue = moment(filterStartDate);
         let endDateValue = moment(filterEndDate);
@@ -208,6 +216,14 @@ const UpcomingLaunchesPage = (props) => {
             upcomingLaunchesEndReachedCalledDuringMomentum = true;
         }
     };
+
+    const renderFilterButton = () => (
+        <CustomButton
+            containerStyle={globleStyles.restFilterContiner}
+            textValue={CLEAR_FILTERS}
+            onPress={loadData}
+            textStyle={globleStyles.buttonTextStyle} />
+    );
 
     const renderFlatListContainer = () => (
         <FlatList
@@ -239,6 +255,7 @@ const UpcomingLaunchesPage = (props) => {
         <SafeAreaView style={styles.mainContainer}>
             <View>
                 {renderHeader()}
+                {!isLoading && upcomingLaunchesFilterdList.length == 0 && renderFilterButton()}
                 {renderFlatListContainer()}
             </View>
             <View style={styles.loadingContainer}>

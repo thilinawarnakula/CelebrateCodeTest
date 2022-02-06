@@ -14,14 +14,16 @@ const CustomButton = (props) => {
 
     const {
         textValue,
-        onPress
+        onPress,
+        containerStyle={},
+        textStyle = {}
     } = props;
 
     return (
         <TouchableOpacity
-            style={styles.mainContianer}
+            style={[styles.mainContianer,containerStyle]}
             onPress={onPress}>
-                <CustomTextView textValue={textValue} textStyle={styles.buttonTextLable} />
+                <CustomTextView textValue={textValue} textStyle={[styles.buttonTextLable,textStyle]} />
         </TouchableOpacity>
     );
 };
