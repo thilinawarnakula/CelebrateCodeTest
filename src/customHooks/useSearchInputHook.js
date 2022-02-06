@@ -1,6 +1,5 @@
 import {useState} from 'react';
 
-
 const useSearchInputHook = (intialValue) => {
     const [value, setValue] = useState(intialValue);
 
